@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anchordata.webframework.job">
+
+	<resultMap id="job" type="JobVO">
+		<result property ="job_id"						column="JOB_ID"	/>
+		<result property ="category_id"					column="CATEGORY_ID"	/>
+		<result property ="category_name"				column="CATEGORY_NAME"	/>
+		<result property ="category_detail_id"			column="CATEGORY_DETAIL_ID"	/>
+		<result property ="category_detail_name"		column="CATEGORY_DETAIL_NAME"	/>
+		<result property ="occupation"					column="OCCUPATION"	/>
+		<result property ="occupation_name"				column="OCCUPATION_NAME"	/>
+		<result property ="name"						column="NAME"	/>
+		<result property ="definition"					column="DEFINITION"	/>
+		<result property ="description"					column="DESCRIPTION"	/>
+		<result property ="education"					column="EDUCATION"	/>
+		<result property ="education_name"				column="EDUCATION_NAME"	/>
+		<result property ="major"						column="MAJOR"	/>
+		<result property ="license_id"					column="LICENSE_ID"	/>
+		<result property ="career"						column="CAREER"	/>
+		<result property ="difficulty"					column="DIFFICULTY"	/>
+		<result property ="difficulty_name"				column="DIFFICULTY_NAME"	/>
+		<result property ="knowledge"					column="KNOWLEDGE"	/>
+		<result property ="skill"						column="SKILL"	/>
+		<result property ="attitude"					column="ATTITUDE"	/>
+		<result property ="salary_level"				column="SALARY_LEVEL"	/>
+		<result property ="prospect"					column="PROSPECT"	/>
+		<result property ="ranking"						column="RANKING"	/>
+		<result property ="related_job"					column="RELATED_JOB"	/>
+		<result property ="related_occupation"			column="RELATED_OCCUPATION"	/>
+		<result property ="keco"						column="KECO"	/>
+		<result property ="company_1"					column="COMPANY_1"	/>
+		<result property ="company_1_name"				column="COMPANY_1_NAME"	/>
+		<result property ="company_1_logo"				column="COMPANY_1_LOGO"	/>
+		<result property ="company_1_size"				column="COMPANY_1_SIZE"	/>
+		<result property ="company_1_address"			column="COMPANY_1_ADDRESS"	/>
+		<result property ="company_1_main_product"		column="COMPANY_1_MAIN_PRODUCT"	/>
+		<result property ="company_2"					column="COMPANY_2"	/>
+		<result property ="company_2_name"				column="COMPANY_2_NAME"	/>
+		<result property ="company_2_logo"				column="COMPANY_2_LOGO"	/>
+		<result property ="company_2_size"				column="COMPANY_2_SIZE"	/>
+		<result property ="company_2_address"			column="COMPANY_2_ADDRESS"	/>
+		<result property ="company_2_main_product"		column="COMPANY_2_MAIN_PRODUCT"	/>
+		<result property ="company_3"					column="COMPANY_3"	/>
+		<result property ="company_3_name"				column="COMPANY_3_NAME"	/>
+		<result property ="company_3_logo"				column="COMPANY_3_LOGO"	/>
+		<result property ="company_3_size"				column="COMPANY_3_SIZE"	/>
+		<result property ="company_3_address"			column="COMPANY_3_ADDRESS"	/>
+		<result property ="company_3_main_product"		column="COMPANY_3_MAIN_PRODUCT"	/>
+		<result property ="future_career_1"				column="FUTURE_CAREER_1"	/>
+		<result property ="future_career_1_name"		column="FUTURE_CAREER_1_NAME"	/>
+		<result property ="future_career_2"				column="FUTURE_CAREER_2"	/>
+		<result property ="future_career_2_name"		column="FUTURE_CAREER_2_NAME"	/>
+		<result property ="future_career_3"				column="FUTURE_CAREER_3"	/>
+		<result property ="future_career_3_name"		column="FUTURE_CAREER_3_NAME"	/>
+		<result property ="upload_file_id"				column="UPLOAD_FILE_ID"	/>
+		<result property ="upload_file_name"			column="UPLOAD_FILE_NAME"	/>
+		<result property ="upload_file_image"			column="UPLOAD_FILE_IMAGE"	/>
+		<result property ="attach_file_description"		column="ATTACH_FILE_DESCRIPTION"	/>
+		<result property ="use_yn"						column="USE_YN"	/>
+		<result property ="reg_date"					column="REG_DATE"	/>
+		<result property ="total_count"					column="TOTAL_COUNT"	/>
+	</resultMap>
+	
+	
+	<resultMap id="job_relatvie" type="JobRelativeVO">
+		<result property ="relative_id"					column="RELATIVE_ID"	/>
+		<result property ="relative_master_id"			column="RELATIVE_MASTER_ID"	/>
+		<result property ="relative_detail_id"			column="RELATIVE_DETAIL_ID"	/>
+		<result property ="job_id"						column="JOB_ID"	/>
+	</resultMap>
+	
+	<resultMap id="commonCode" type="CommonCodeVO">
+		<result property ="detail_index"				column="DETAIL_INDEX"	/>
+		<result property ="master_id"					column="MASTER_ID"	/>
+		<result property ="master_description"			column="MASTER_DESCRIPTION"	/>
+		<result property ="parent_id"					column="PARENT_ID"	/>
+		<result property ="detail_id"					column="DETAIL_ID"	/>
+		<result property ="name"						column="NAME"	/>
+		<result property ="detail_description"			column="DETAIL_DESCRIPTION"	/>
+		<result property ="use_yn"						column="USE_YN"	/>
+	</resultMap>
+	
+	
+	<!-- PJS 생성  -->
+	<!-- 2020-03-25 -->
+	<insert id="insertInfo" useGeneratedKeys="true" keyProperty="job_id" parameterType="JobVO">
+		INSERT INTO JOB ( 
+			CATEGORY_ID
+			,	CATEGORY_DETAIL_ID
+			,	OCCUPATION
+			,	NAME
+			,	DEFINITION
+			,	DESCRIPTION
+			,	EDUCATION
+			,	MAJOR
+			,	LICENSE_ID
+			, 	CAREER
+			,	DIFFICULTY
+			,	KNOWLEDGE
+			,	SKILL
+			,	ATTITUDE
+			,	SALARY_LEVEL
+			,	PROSPECT
+			,	RANKING
+			,	RELATED_JOB
+			,	RELATED_OCCUPATION
+			,	KECO
+			,	COMPANY_1
+			,	COMPANY_2
+			,	COMPANY_3
+			,	FUTURE_CAREER_1
+			,	FUTURE_CAREER_2
+			,	FUTURE_CAREER_3
+			,	UPLOAD_FILE_ID
+						
+		) 
+		VALUES (
+			#{category_id} 
+			,	#{category_detail_id}
+			,	#{occupation}
+			,	#{name}
+			,	#{definition}
+			,	#{description}
+			,	#{education}
+			,	#{major}
+			,	#{license_id}
+			,	#{career}
+			,	#{difficulty}
+			,	#{knowledge}
+			,	#{skill}			
+			,	#{attitude}
+			,	#{salary_level}
+			,	#{prospect}
+			,	#{ranking}
+			,	#{related_job}
+			,	#{related_occupation}
+			,	#{keco}
+			,	#{company_1}
+			,	#{company_2}
+			,	#{company_3}
+			,	#{future_career_1}
+			,	#{future_career_2}
+			,	#{future_career_3}
+			,	#{upload_file_id}
+		);
+	</insert>
+	
+	
+	<insert id="insertRelativeInfo" useGeneratedKeys="true" keyProperty="relative_id" parameterType="JobRelativeVO">
+		INSERT INTO JOB_RELATIVE ( 
+			RELATIVE_MASTER_ID
+			,	RELATIVE_DETAIL_ID
+			,	JOB_ID
+		) 
+		VALUES (
+			#{relative_master_id} 
+			,	#{relative_detail_id}
+			,	#{job_id}
+		);
+	</insert>
+	
+	
+	<delete id="deleteRelativeInfo" parameterType="JobRelativeVO">
+		DELETE FROM JOB_RELATIVE			
+		WHERE JOB_ID = #{job_id} and RELATIVE_MASTER_ID = #{relative_master_id}
+	</delete>
+	
+		
+	<update id="updateInfo" parameterType="JobVO">
+		UPDATE JOB SET   
+			CATEGORY_ID = #{category_id}
+			,	CATEGORY_DETAIL_ID = #{category_detail_id}
+			,	OCCUPATION = #{occupation}
+			,	NAME = #{name}
+			,	DEFINITION = #{definition}
+			,	DESCRIPTION = #{description}
+			,	EDUCATION = #{education}
+			,	MAJOR = #{major}
+			,	LICENSE_ID = #{license_id}
+			,	CAREER = #{career}
+			,	DIFFICULTY = #{difficulty}
+			,	KNOWLEDGE = #{knowledge}
+			,	SKILL = #{skill}
+			,	ATTITUDE = #{attitude}
+			,	SALARY_LEVEL = #{salary_level}
+			,	PROSPECT = #{prospect}
+			,	RANKING = #{ranking}
+			,	RELATED_JOB = #{related_job}
+			,	RELATED_OCCUPATION = #{related_occupation}
+			,	KECO = #{keco}
+			,	COMPANY_1 = #{company_1}
+			,	COMPANY_2 = #{company_2}
+			,	COMPANY_3 = #{company_3}
+			,	FUTURE_CAREER_1 = #{future_career_1}
+			,	FUTURE_CAREER_2 = #{future_career_2}
+			,	FUTURE_CAREER_3 = #{future_career_3}
+			<if test="upload_file_id != null and upload_file_id != '' ">
+				,	UPLOAD_FILE_ID = #{upload_file_id}
+			</if>
+		WHERE JOB_ID = #{job_id}
+	</update>
+	
+	<delete id="deleteInfo" parameterType="JobVO">
+		DELETE FROM JOB
+		WHERE JOB_ID = #{job_id}
+	</delete>
+	
+	<select id="selectSearchList" parameterType="DataMap"  resultMap="job">
+		<include refid="common.pagingPre"/>
+		SELECT
+			JOB_ID
+			,	CATEGORY_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000002' AND DETAIL_ID = A.CATEGORY_ID) AS CATEGORY_NAME
+			,	CATEGORY_DETAIL_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000003' AND DETAIL_ID = A.CATEGORY_DETAIL_ID) AS CATEGORY_DETAIL_NAME
+			,	OCCUPATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000004' AND DETAIL_ID = A.OCCUPATION) AS OCCUPATION_NAME
+			,	NAME
+			,	DEFINITION
+			,	DESCRIPTION
+			,	EDUCATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000005' AND DETAIL_ID = A.EDUCATION) AS EDUCATION_NAME
+			, 	CAREER
+			,	DIFFICULTY
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000012' AND DETAIL_ID = A.DIFFICULTY) AS DIFFICULTY_NAME
+			,	KNOWLEDGE
+			,	SKILL
+			,	ATTITUDE
+			,	SALARY_LEVEL
+			,	PROSPECT
+			,	RANKING
+			,	RELATED_JOB
+			,	RELATED_OCCUPATION
+			,	KECO
+			,	COMPANY_1
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_1),"") AS COMPANY_1_NAME
+			,	COMPANY_2
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_2),"") AS COMPANY_2_NAME
+			,	COMPANY_3
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_3),"") AS COMPANY_3_NAME
+			,	FUTURE_CAREER_1
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_1),"") AS FUTURE_CAREER_1_NAME
+			,	FUTURE_CAREER_2
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_2),"") AS FUTURE_CAREER_2_NAME
+			,	FUTURE_CAREER_3
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_3),"") AS FUTURE_CAREER_3_NAME
+			,	UPLOAD_FILE_ID
+			,	IFNULL((SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID),"") AS UPLOAD_FILE_NAME
+		FROM
+			JOB A
+		WHERE
+			1 = 1
+			AND USE_YN = 'Y'
+			
+			<if test='category_id != null and category_id != "" '>
+				AND CATEGORY_ID = #{category_id}
+			</if>
+			
+			<if test='category_detail_id != null and category_detail_id != "" '>
+				AND CATEGORY_DETAIL_ID = #{category_detail_id}
+			</if>
+			
+			<if test='occupation != null and occupation != "" '>
+				AND OCCUPATION = #{occupation}
+			</if>
+			
+			<if test='education != null and education != "" '>
+				AND EDUCATION = #{education}
+			</if>
+			
+			<if test='difficulty != null and difficulty != "" '>
+				AND DIFFICULTY = #{difficulty}
+			</if>	
+			
+			<if test='name != null and name != "" '>
+				AND NAME LIKE CONCAT('%',#{name},'%')
+			</if>
+	
+			<if test='major != null and major != "" '>
+				AND JOB_ID IN ( (SELECT JOB_ID FROM JOB_RELATIVE WHERE RELATIVE_MASTER_ID = 'M000006' AND RELATIVE_DETAIL_ID = #{major})  )
+			</if>
+			
+		<include refid="common.pagingPost"/>
+	</select>
+	
+	
+	
+	<select id="selectSearchAllList" parameterType="JobVO"  resultMap="job">
+		SELECT
+			JOB_ID
+			,	CATEGORY_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000002' AND DETAIL_ID = A.CATEGORY_ID) AS CATEGORY_NAME
+			,	CATEGORY_DETAIL_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000003' AND DETAIL_ID = A.CATEGORY_DETAIL_ID) AS CATEGORY_DETAIL_NAME
+			,	OCCUPATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000004' AND DETAIL_ID = A.OCCUPATION) AS OCCUPATION_NAME
+			,	NAME
+			,	DEFINITION
+			,	DESCRIPTION
+			,	EDUCATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000005' AND DETAIL_ID = A.EDUCATION) AS EDUCATION_NAME
+			, 	CAREER
+			,	DIFFICULTY
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000012' AND DETAIL_ID = A.DIFFICULTY) AS DIFFICULTY_NAME
+			,	KNOWLEDGE
+			,	SKILL
+			,	ATTITUDE
+			,	SALARY_LEVEL
+			,	PROSPECT
+			,	RANKING
+			,	RELATED_JOB
+			,	RELATED_OCCUPATION
+			,	KECO
+			,	COMPANY_1
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_1),"") AS COMPANY_1_NAME
+			,	COMPANY_2
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_2),"") AS COMPANY_2_NAME
+			,	COMPANY_3
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_3),"") AS COMPANY_3_NAME
+			,	FUTURE_CAREER_1
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_1),"") AS FUTURE_CAREER_1_NAME
+			,	FUTURE_CAREER_2
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_2),"") AS FUTURE_CAREER_2_NAME
+			,	FUTURE_CAREER_3
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_3),"") AS FUTURE_CAREER_3_NAME
+			,	UPLOAD_FILE_ID
+			,	IFNULL((SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID),"") AS UPLOAD_FILE_NAME
+		FROM
+			JOB A
+		WHERE
+			1 = 1
+			AND USE_YN = 'Y'
+			
+			<if test='category_id != null and category_id != "" '>
+				AND CATEGORY_ID = #{category_id}
+			</if>
+			
+			<if test='category_detail_id != null and category_detail_id != "" '>
+				AND CATEGORY_DETAIL_ID = #{category_detail_id}
+			</if>
+			
+			<if test='occupation != null and occupation != "" '>
+				AND OCCUPATION = #{occupation}
+			</if>
+			
+			<if test='education != null and education != "" '>
+				AND EDUCATION = #{education}
+			</if>
+			
+			<if test='difficulty != null and difficulty != "" '>
+				AND DIFFICULTY = #{difficulty}
+			</if>	
+			
+			<if test='name != null and name != "" '>
+				AND NAME LIKE CONCAT('%',#{name},'%')
+			</if>
+	
+			<if test='major != null and major != "" '>
+				AND JOB_ID IN ( (SELECT JOB_ID FROM JOB_RELATIVE WHERE RELATIVE_MASTER_ID = 'M000006' AND RELATIVE_DETAIL_ID = #{major})  )
+			</if>
+	</select>
+	
+	<select id="selectAllList" resultMap="job">
+		SELECT 
+			JOB_ID
+			,	CATEGORY_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000002' AND DETAIL_ID = A.CATEGORY_ID) AS CATEGORY_NAME
+			,	CATEGORY_DETAIL_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000003' AND DETAIL_ID = A.CATEGORY_DETAIL_ID) AS CATEGORY_DETAIL_NAME
+			,	OCCUPATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000004' AND DETAIL_ID = A.OCCUPATION) AS OCCUPATION_NAME
+			,	NAME
+			,	DEFINITION
+			,	DESCRIPTION
+			,	EDUCATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000005' AND DETAIL_ID = A.EDUCATION) AS EDUCATION_NAME
+			, 	CAREER
+			,	DIFFICULTY
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000012' AND DETAIL_ID = A.DIFFICULTY) AS DIFFICULTY_NAME
+			,	KNOWLEDGE
+			,	SKILL
+			,	ATTITUDE
+			,	SALARY_LEVEL
+			,	PROSPECT
+			,	RANKING
+			,	RELATED_JOB
+			,	RELATED_OCCUPATION
+			,	KECO
+			,	COMPANY_1
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_1),"") AS COMPANY_1_NAME
+			,	COMPANY_2
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_2),"") AS COMPANY_2_NAME
+			,	COMPANY_3
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_3),"") AS COMPANY_3_NAME
+			,	FUTURE_CAREER_1
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_1),"") AS FUTURE_CAREER_1_NAME
+			,	FUTURE_CAREER_2
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_2),"") AS FUTURE_CAREER_2_NAME
+			,	FUTURE_CAREER_3
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_3),"") AS FUTURE_CAREER_3_NAME
+			,	UPLOAD_FILE_ID
+			,	IFNULL((SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID),"") AS UPLOAD_FILE_NAME
+		FROM
+			JOB A
+		WHERE 
+			USE_YN = 'Y'	
+		ORDER BY CATEGORY_ID, CATEGORY_DETAIL_ID
+	</select>
+	
+	
+	<select id="selectDetail" parameterType="JobVO"  resultMap="job">
+		SELECT
+			JOB_ID
+			,	CATEGORY_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000002' AND DETAIL_ID = A.CATEGORY_ID) AS CATEGORY_NAME
+			,	CATEGORY_DETAIL_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000003' AND DETAIL_ID = A.CATEGORY_DETAIL_ID) AS CATEGORY_DETAIL_NAME
+			,	OCCUPATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000004' AND DETAIL_ID = A.OCCUPATION) AS OCCUPATION_NAME
+			,	NAME
+			,	DEFINITION
+			,	DESCRIPTION
+			,	EDUCATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000005' AND DETAIL_ID = A.EDUCATION) AS EDUCATION_NAME
+			, 	CAREER
+			,	DIFFICULTY
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000012' AND DETAIL_ID = A.DIFFICULTY) AS DIFFICULTY_NAME
+			,	KNOWLEDGE
+			,	SKILL
+			,	ATTITUDE
+			,	SALARY_LEVEL
+			,	PROSPECT
+			,	RANKING
+			,	RELATED_JOB
+			,	RELATED_OCCUPATION
+			,	KECO
+			,	COMPANY_1
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_1),"") AS COMPANY_1_NAME
+			,	(SELECT BINARY_CONTENT from UPLOAD_FILE WHERE FIlE_ID = (SELECT UPLOAD_FILE_ID FROM COMPANY WHERE COMPANY_ID = A.COMPANY_1)) AS COMPANY_1_LOGO
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000014' AND DETAIL_ID = (SELECT SIZE FROM company WHERE COMPANY_ID = A.COMPANY_1 )) AS COMPANY_1_SIZE	
+			,	IFNULL((SELECT ADDRESS FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_1),"") AS COMPANY_1_ADDRESS
+			,	IFNULL((SELECT MAIN_PRODUCT FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_1),"") AS COMPANY_1_MAIN_PRODUCT
+			,	COMPANY_2
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_2),"") AS COMPANY_2_NAME
+			,	(SELECT BINARY_CONTENT from UPLOAD_FILE WHERE FIlE_ID = (SELECT UPLOAD_FILE_ID FROM COMPANY WHERE COMPANY_ID = A.COMPANY_2)) AS COMPANY_2_LOGO
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000014' AND DETAIL_ID = (SELECT SIZE FROM company WHERE COMPANY_ID = A.COMPANY_2 )) AS COMPANY_2_SIZE	
+			,	IFNULL((SELECT ADDRESS FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_2),"") AS COMPANY_2_ADDRESS
+			,	IFNULL((SELECT MAIN_PRODUCT FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_2),"") AS COMPANY_2_MAIN_PRODUCT
+			,	COMPANY_3
+			,	IFNULL((SELECT NAME FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_3),"") AS COMPANY_3_NAME
+			,	(SELECT BINARY_CONTENT from UPLOAD_FILE WHERE FIlE_ID = (SELECT UPLOAD_FILE_ID FROM COMPANY WHERE COMPANY_ID = A.COMPANY_3)) AS COMPANY_3_LOGO
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000014' AND DETAIL_ID = (SELECT SIZE FROM company WHERE COMPANY_ID = A.COMPANY_3 )) AS COMPANY_3_SIZE	
+			,	IFNULL((SELECT ADDRESS FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_3),"") AS COMPANY_3_ADDRESS
+			,	IFNULL((SELECT MAIN_PRODUCT FROM COMPANY B WHERE B.COMPANY_ID = A.COMPANY_3),"") AS COMPANY_3_MAIN_PRODUCT
+			,	FUTURE_CAREER_1
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_1),"") AS FUTURE_CAREER_1_NAME
+			,	FUTURE_CAREER_2
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_2),"") AS FUTURE_CAREER_2_NAME
+			,	FUTURE_CAREER_3
+			,	IFNULL((SELECT NAME FROM JOB B WHERE B.JOB_ID = A.FUTURE_CAREER_3),"") AS FUTURE_CAREER_3_NAME
+			,	UPLOAD_FILE_ID
+			,	IFNULL((SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID),"") AS UPLOAD_FILE_NAME
+			,	(SELECT BINARY_CONTENT from UPLOAD_FILE WHERE FIlE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_IMAGE			
+			,	(SELECT DESCRIPTION FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS ATTACH_FILE_DESCRIPTION
+		FROM
+			JOB A
+		WHERE
+			JOB_ID = #{job_id}
+	</select>
+	
+	
+	<select id="selectMajorList" parameterType="JobVO" resultMap="commonCode">
+		SELECT 
+			DETAIL_INDEX
+				, 	MASTER_ID
+				,	PARENT_ID
+				,	DETAIL_ID
+				,	NAME
+				,	DETAIL_DESCRIPTION
+				,	USE_YN 
+		FROM
+			COMMON_CODE_DETAIL
+		WHERE 
+			MASTER_ID = 'M000006' 
+			AND DETAIL_ID IN (SELECT RELATIVE_DETAIL_ID FROM JOB_RELATIVE WHERE JOB_ID = #{job_id} )	
+	</select>
+	
+	
+	
+	<!-- ///////////////////////////////////////////////////////////////////////////
+	// JOB RANK 관련
+	/////////////////////////////////////////////////////////////////////////// -->
+	<update id="updateRank" parameterType="JobVO">
+		UPDATE JOB SET   
+			RANKING = #{ranking}
+			,	RANK_UPDATE_DATE = NOW()
+		WHERE 
+			JOB_ID = #{job_id}
+	</update>
+	
+	<select id="allListRank" resultMap="job">
+		SELECT 
+			JOB_ID
+			,	CATEGORY_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000002' AND DETAIL_ID = A.CATEGORY_ID) AS CATEGORY_NAME
+			,	CATEGORY_DETAIL_ID
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000003' AND DETAIL_ID = A.CATEGORY_DETAIL_ID) AS CATEGORY_DETAIL_NAME
+			,	OCCUPATION
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000004' AND DETAIL_ID = A.OCCUPATION) AS OCCUPATION_NAME
+			,	NAME
+			,	DEFINITION
+			,	DESCRIPTION
+			,	EDUCATION
+			,	MAJOR
+			,	LICENSE_ID
+			, 	CAREER
+			,	DIFFICULTY
+			,	KNOWLEDGE
+			,	SKILL
+			,	ATTITUDE
+			,	SALARY_LEVEL
+			,	PROSPECT
+			,	RANKING
+			,	RELATED_JOB
+			,	RELATED_OCCUPATION
+			,	KECO
+			,	COMPANY_1
+			,	COMPANY_2
+			,	COMPANY_3
+			,	FUTURE_CAREER_1
+			,	FUTURE_CAREER_2
+			,	FUTURE_CAREER_3
+			,	UPLOAD_FILE_ID
+			,	IFNULL((SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID),"") AS UPLOAD_FILE_NAME
+			,	(SELECT BINARY_CONTENT from UPLOAD_FILE WHERE FIlE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_IMAGE			
+			,	(SELECT DESCRIPTION FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS ATTACH_FILE_DESCRIPTION
+		FROM
+			JOB A
+		WHERE 
+			RANKING = 'Y'
+		ORDER BY
+			RANK_UPDATE_DATE
+	</select>
+	
+</mapper>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anchordata.webframework.trend">
+
+	<resultMap id="trend" type="TrendVO">
+		<result property ="trend_id"				column="TREND_ID"/>
+		<result property ="title"					column="TITLE"	/>
+		<result property ="writer"					column="WRITER"	/>
+		<result property ="explanation"				column="EXPLANATION"	/>
+		<result property ="upload_file_id"			column="UPLOAD_FILE_ID"	/>
+		<result property ="upload_file_name"		column="UPLOAD_FILE_NAME"	/>
+		
+		<result property ="use_yn"					column="USE_YN"	/>
+		<result property ="reg_date"				column="REG_DATE"	/>
+		<result property ="total_count"				column="TOTAL_COUNT"	/>
+	</resultMap>
+	
+	
+	<!-- PJS 생성  -->
+	<!-- 2020-03-25 -->
+	<insert id="insertInfo" parameterType="TrendVO">
+		INSERT INTO TREND ( 
+			WRITER
+			,	TITLE
+			,	EXPLANATION
+			,	UPLOAD_FILE_ID
+		) 
+		VALUES (
+			#{writer} 
+			,	#{title}
+			,	#{explanation}
+			,	#{upload_file_id}
+		);
+	</insert>
+	
+	
+	<select id="selectSearchList" parameterType="DataMap"  resultMap="trend">
+		<include refid="common.pagingPre"/>
+		SELECT
+			TREND_ID
+			,	TITLE
+			,	WRITER
+			,	EXPLANATION
+			,	HITS
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			TREND A
+		WHERE
+			USE_YN = 'Y'
+			<if test='title != null and title != "" '>
+				AND TITLE LIKE CONCAT('%',#{title},'%')
+			</if>
+			<if test='writer != null and writer != "" '>
+				AND WRITER LIKE CONCAT('%',#{writer},'%')
+			</if>
+			<if test='reg_date != null and reg_date != "" '>
+				AND DATE_FORMAT(REG_DATE,'%Y-%m-%d') = #{reg_date}
+			</if>
+		<include refid="common.pagingPost"/>
+	</select>	
+	
+	
+	<select id="selectSearchAllList" parameterType="DataMap"  resultMap="trend">
+		SELECT
+			TREND_ID
+			,	TITLE
+			,	WRITER
+			,	EXPLANATION
+			,	HITS
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			TREND A
+		WHERE
+			USE_YN = 'Y'
+			<if test='title != null and title != "" '>
+				AND TITLE LIKE CONCAT('%',#{title},'%')
+			</if>
+			<if test='writer != null and writer != "" '>
+				AND WRITER LIKE CONCAT('%',#{writer},'%')
+			</if>
+			<if test='reg_date != null and reg_date != "" '>
+				AND DATE_FORMAT(REG_DATE,'%Y-%m-%d') = #{reg_date}
+			</if>
+	</select>
+	
+	
+	
+	<select id="selectDetail" parameterType="TrendVO"  resultMap="trend">
+		SELECT
+			TREND_ID
+			,	TITLE
+			,	WRITER
+			,	EXPLANATION
+			,	HITS
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			TREND A
+		WHERE
+			TREND_ID = #{trend_id}
+	</select>
+	
+	<update id="updateInfo" parameterType="TrendVO">
+		UPDATE TREND SET   
+			TITLE = #{title}
+			,	WRITER = #{writer}
+			,	EXPLANATION = #{explanation}
+			<if test="upload_file_id != null and upload_file_id != '' ">
+				,	UPLOAD_FILE_ID = #{upload_file_id}
+			</if>
+			,	REG_DATE = NOW()
+		WHERE 
+			TREND_ID = #{trend_id}
+	</update>
+	
+	
+	<delete id="deleteInfo" parameterType="TrendVO">
+		DELETE FROM TREND			
+		WHERE TREND_ID = #{trend_id}
+	</delete>	
+	
+	<select id="selectPreNextList" parameterType="DataMap"  resultMap="trend">
+		SELECT
+			TREND_ID
+			,	TITLE
+			,	WRITER
+			,	EXPLANATION
+			,	HITS
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			TREND A
+		WHERE 
+			1 = 1
+			AND USE_YN = 'Y'
+			AND TREND_ID IN (
+    				(SELECT TREND_ID FROM TREND WHERE TREND_ID <![CDATA[ < ]]> #{trend_id} ORDER BY TREND_ID DESC LIMIT 1),
+    				(SELECT TREND_ID FROM TREND WHERE TREND_ID <![CDATA[ > ]]> #{trend_id} ORDER BY TREND_ID LIMIT 1)
+  				)
+	</select>
+	
+	<update id="updateHits" parameterType="TrendVO">
+		UPDATE TREND SET   
+			HITS = HITS+1
+		WHERE TREND_ID = #{trend_id}
+	</update>
+	
+	
+</mapper>

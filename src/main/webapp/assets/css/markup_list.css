@@ -1,0 +1,50 @@
+@charset "UTF-8";
+* { font-size: 12px; margin: 0; padding: 0; font-family: '맑은 고딕', dotum, sans-serif; color: #333333; }
+
+a, a:visited { text-decoration: none; }
+
+a:hover, a:active, a:focus { text-decoration: underline; }
+
+#wrap { width: calc(100% - 20px); margin: 10px auto; text-align: center; }
+
+#wrap h1 { font-size: 20px; line-height: 62px; color: #000; }
+
+table { clear: both; width: 100%; margin-top: 10px; border-collapse: collapse; border-top: 1px solid #808080; border-right: 1px solid #808080; }
+
+table tr td:nth-child(1), table tr td:nth-child(2), table tr td:nth-last-child(1), table tr td:nth-last-child(2) { text-align: center; }
+
+table tr:hover { background-color: #f5f5f5; }
+
+table th, table td { padding: 5px; border-bottom: 1px solid #808080; border-left: 1px solid #808080; }
+
+table th { color: #000; background: #d9d9d9; }
+
+table th.line_blank { height: 3px; padding: 0; background: #808080; }
+
+table th.note { display: none; padding: 20px; text-align: right; letter-spacing: 1px; background-color: #fafafa; }
+
+table th .sub { color: #333; background: #d9d9d9; }
+
+table td { text-align: right; vertical-align: middle; line-height: 160%; }
+
+table td .btn_more { width: 35px; padding: 2px 0; font-size: 10px; }
+
+ul.progress { position: absolute; top: 10px; right: 10px; width: 300px; padding: 10px; list-style-type: none; font-size: 16px; background: #d0d0d0; border-radius: 10px; }
+
+ul.progress li { float: right; margin-bottom: 5px; color: #000; text-align: right; }
+
+ul.progress li:first-child { margin-left: 25px; }
+
+ul.progress li:last-child { float: none; color: #000; text-align: left; }
+
+ul.progress li span { color: blue; font-weight: bold; }
+
+ul.progress li .progress_bar { margin-top: 5px; }
+
+ul.progress li .rate { float: right; position: relative; padding-right: 5px; color: #fff; line-height: 17px; }
+
+ul.progress li .skill { background: #000; width: 100%; padding: 1px; box-sizing: border-box; border: 1px solid #598cff; }
+
+ul.progress li .skill .skill_level { background: #598cff; width: 100%; height: 14px; }
+
+.template { font-weight: bold; text-align: left; text-decoration: underline; letter-spacing: 1px; }

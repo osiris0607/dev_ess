@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anchordata.webframework.company">
+
+	<resultMap id="company" type="CompanyVO">
+		<result property ="company_id"				column="COMPANY_ID"	/>
+		<result property ="size"					column="SIZE"	/>
+		<result property ="region"					column="REGION"	/>
+		<result property ="region_detail"			column="REGION_DETAIL"	/>
+		<result property ="ksic"					column="KSIC"	/>
+		<result property ="name"					column="NAME"	/>
+		<result property ="address"					column="ADDRESS"	/>
+		<result property ="phone"					column="PHONE"	/>
+		<result property ="home_page"				column="HOME_PAGE"	/>
+		<result property ="staff_number"			column="STAFF_NUMBER"	/>
+		<result property ="main_product"			column="MAIN_PRODUCT"	/>
+		<result property ="associated_job_1"		column="ASSOCIATED_JOB_1"	/>
+		<result property ="associated_job_2"		column="ASSOCIATED_JOB_2"	/>
+		<result property ="associated_job_3"		column="ASSOCIATED_JOB_3"	/>
+		<result property ="upload_file_id"			column="UPLOAD_FILE_ID"	/>
+		<result property ="use_yn"					column="USE_YN"	/>
+		<result property ="reg_date"				column="REG_DATE"	/>
+		<result property ="total_count"				column="TOTAL_COUNT"	/>
+		<result property ="size_name"				column="SIZE_NAME"	/>
+		<result property ="region_name"				column="REGION_NAME"	/>
+		<result property ="region_detail_name"		column="REGION_DETAIL_NAME"	/>
+		<result property ="region_count"			column="REGION_COUNT"	/>
+		<result property ="ksic_name"				column="KSIC_NAME"	/>
+		<result property ="associated_job_1_name"	column="ASSOCIATED_JOB_1_NAME"	/>
+		<result property ="associated_job_1_definition"	column="ASSOCIATED_JOB_1_DEFINITION"	/>
+		<result property ="associated_job_2_name"	column="ASSOCIATED_JOB_2_NAME"	/>
+		<result property ="associated_job_2_definition"	column="ASSOCIATED_JOB_2_DEFINITION"	/>
+		<result property ="associated_job_3_name"	column="ASSOCIATED_JOB_3_NAME"	/>
+		<result property ="associated_job_3_definition"	column="ASSOCIATED_JOB_3_DEFINITION"	/>
+		<result property ="upload_file_name"		column="UPLOAD_FILE_NAME"	/>
+		<result property ="attach_file_description"	column="ATTACH_FILE_DESCRIPTION"	/>
+	</resultMap>
+	
+	
+	<insert id="insertInfo" parameterType="CompanyVO">
+		INSERT INTO COMPANY ( 
+			SIZE
+			,	REGION
+			,	REGION_DETAIL
+			,	KSIC
+			,	NAME
+			,	ADDRESS
+			,	PHONE
+			,	HOME_PAGE
+			, 	STAFF_NUMBER
+			, 	MAIN_PRODUCT
+			, 	ASSOCIATED_JOB_1
+			, 	ASSOCIATED_JOB_2
+			, 	ASSOCIATED_JOB_3
+			,	UPLOAD_FILE_ID
+		) 
+		VALUES (
+			#{size} 
+			,	#{region}
+			,	#{region_detail}
+			,	#{ksic}
+			,	#{name}
+			,	#{address}
+			,	#{phone}
+			,	#{home_page}
+			,	#{staff_number}
+			,	#{main_product}
+			,	#{associated_job_1}
+			,	#{associated_job_2}
+			,	#{associated_job_3}
+			,	#{upload_file_id}
+			
+		);
+	</insert>
+	
+	
+	<select id="selectSearchList" parameterType="DataMap"  resultMap="company">
+		<include refid="common.pagingPre"/>
+		SELECT
+			COMPANY_ID
+			,	SIZE
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000014' AND DETAIL_ID = A.SIZE) AS SIZE_NAME
+			,	REGION
+			,	(SELECT ADDR FROM ADMINISTRATIVE_DISTRICT WHERE MASTER_ID = 'D000001' AND CODE = A.REGION) AS REGION_NAME
+			,	REGION_DETAIL
+			,	(SELECT ADDR FROM ADMINISTRATIVE_DISTRICT WHERE MASTER_ID = 'D000002' AND CODE = A.REGION_DETAIL) AS REGION_DETAIL_NAME
+			,	KSIC
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000015' AND DETAIL_ID = A.KSIC) AS KSIC_NAME
+			,	NAME
+			,	ADDRESS
+			,	PHONE
+			,	HOME_PAGE
+			, 	STAFF_NUMBER
+			, 	MAIN_PRODUCT
+			, 	ASSOCIATED_JOB_1
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_1) AS ASSOCIATED_JOB_1_NAME
+			, 	ASSOCIATED_JOB_2
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_2) AS ASSOCIATED_JOB_2_NAME
+			, 	ASSOCIATED_JOB_3
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_3) AS ASSOCIATED_JOB_3_NAME
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+		FROM
+			COMPANY A
+		WHERE
+			1 = 1
+			AND USE_YN = 'Y'
+			<if test='size != null and size != "" '>
+				AND SIZE = #{size}
+			</if>
+			<if test='region != null and region != "" '>
+				AND REGION = #{region}
+			</if>
+			<if test='region_detail != null and region_detail != "" '>
+				AND REGION_DETAIL = #{region_detail}
+			</if>
+			<if test='name != null and name != "" '>
+				AND NAME LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test='category_id != null and category_id != "" '>
+				AND 
+				   ( (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_1) = #{category_id}
+					 OR (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_2) = #{category_id}
+					 OR (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_3) = #{category_id}
+					)
+			</if>
+			<if test='category_detail_id != null and category_detail_id != "" '>
+				AND 
+				   ( (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_1) = #{category_detail_id}
+					 OR (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_2) = #{category_detail_id}
+					 OR (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_3) = #{category_detail_id}
+					)
+			</if>
+		<include refid="common.pagingPost"/>
+	</select>	
+	
+	
+	<select id="selectSearchAllList" parameterType="DataMap"  resultMap="company">
+		SELECT
+			COMPANY_ID
+			,	SIZE
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000014' AND DETAIL_ID = A.SIZE) AS SIZE_NAME
+			,	REGION
+			,	(SELECT ADDR FROM ADMINISTRATIVE_DISTRICT WHERE MASTER_ID = 'D000001' AND CODE = A.REGION) AS REGION_NAME
+			,	REGION_DETAIL
+			,	(SELECT ADDR FROM ADMINISTRATIVE_DISTRICT WHERE MASTER_ID = 'D000002' AND CODE = A.REGION_DETAIL) AS REGION_DETAIL_NAME
+			,	KSIC
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000015' AND DETAIL_ID = A.KSIC) AS KSIC_NAME
+			,	NAME
+			,	ADDRESS
+			,	PHONE
+			,	HOME_PAGE
+			, 	STAFF_NUMBER
+			, 	MAIN_PRODUCT
+			, 	ASSOCIATED_JOB_1
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_1) AS ASSOCIATED_JOB_1_NAME
+			,	(SELECT DEFINITION FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_1) AS ASSOCIATED_JOB_1_DEFINITION
+			, 	ASSOCIATED_JOB_2
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_2) AS ASSOCIATED_JOB_2_NAME
+			,	(SELECT DEFINITION FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_2) AS ASSOCIATED_JOB_2_DEFINITION
+			, 	ASSOCIATED_JOB_3
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_3) AS ASSOCIATED_JOB_3_NAME
+			,	(SELECT DEFINITION FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_3) AS ASSOCIATED_JOB_3_DEFINITION
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+		FROM
+			COMPANY A
+		WHERE
+			1 = 1
+			AND USE_YN = 'Y'
+			<if test='size != null and size != "" '>
+				AND SIZE = #{size}
+			</if>
+			<if test='region != null and region != "" '>
+				AND REGION = #{region}
+			</if>
+			<if test='region_detail != null and region_detail != "" '>
+				AND REGION_DETAIL = #{region_detail}
+			</if>
+			<if test='name != null and name != "" '>
+				AND NAME LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test='category_id != null and category_id != "" '>
+				AND 
+				   ( (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_1) = #{category_id}
+					 OR (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_2) = #{category_id}
+					 OR (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_3) = #{category_id}
+					)
+			</if>
+			<if test='category_detail_id != null and category_detail_id != "" '>
+				AND 
+				   ( (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_1) = #{category_detail_id}
+					 OR (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_2) = #{category_detail_id}
+					 OR (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_3) = #{category_detail_id}
+					)
+			</if>
+			
+	</select>
+	
+	
+	<select id="selectDetail" parameterType="CompanyVO"  resultMap="company">
+		SELECT
+			COMPANY_ID
+			,	SIZE
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000014' AND DETAIL_ID = A.SIZE) AS SIZE_NAME
+			,	REGION
+			,	(SELECT ADDR FROM ADMINISTRATIVE_DISTRICT WHERE MASTER_ID = 'D000001' AND CODE = A.REGION) AS REGION_NAME
+			,	REGION_DETAIL
+			,	(SELECT ADDR FROM ADMINISTRATIVE_DISTRICT WHERE MASTER_ID = 'D000002' AND CODE = A.REGION_DETAIL) AS REGION_DETAIL_NAME
+			,	KSIC
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000015' AND DETAIL_ID = A.KSIC) AS KSIC_NAME
+			,	NAME
+			,	ADDRESS
+			,	PHONE
+			,	HOME_PAGE
+			, 	STAFF_NUMBER
+			, 	MAIN_PRODUCT
+			, 	ASSOCIATED_JOB_1
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_1) AS ASSOCIATED_JOB_1_NAME
+			, 	ASSOCIATED_JOB_2
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_2) AS ASSOCIATED_JOB_2_NAME
+			, 	ASSOCIATED_JOB_3
+			,	(SELECT NAME FROM JOB WHERE JOB_ID = A.ASSOCIATED_JOB_3) AS ASSOCIATED_JOB_3_NAME
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+			,	(SELECT DESCRIPTION FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS ATTACH_FILE_DESCRIPTION
+		FROM
+			COMPANY A
+		WHERE
+			COMPANY_ID = #{company_id}
+	</select>
+	
+	<update id="updateInfo" parameterType="CompanyVO">
+		UPDATE COMPANY SET   
+			SIZE = #{size}
+			,	REGION = #{region}
+			,	REGION_DETAIL = #{region_detail}
+			,	KSIC = #{ksic}
+			,	NAME = #{name}
+			,	ADDRESS = #{address}
+			,	PHONE = #{phone}
+			,	HOME_PAGE = #{home_page}
+			,	STAFF_NUMBER = #{staff_number}
+			,	MAIN_PRODUCT = #{main_product}
+			,	ASSOCIATED_JOB_1 = #{associated_job_1}
+			,	ASSOCIATED_JOB_2 = #{associated_job_2}
+			,	ASSOCIATED_JOB_3 = #{associated_job_3}
+			<if test='upload_file_id != null and upload_file_id != "" '>
+			,	UPLOAD_FILE_ID = #{upload_file_id}
+			</if>
+		WHERE 
+			COMPANY_ID = #{company_id}
+	</update>
+	
+	
+	<delete id="deleteInfo" parameterType="CompanyVO">
+		DELETE FROM COMPANY			
+		WHERE COMPANY_ID = #{company_id}
+	</delete>	
+	
+	
+	<select id="selectAllList" resultMap="company">
+		SELECT
+			COMPANY_ID
+			,	SIZE
+			,	REGION
+			,	REGION_DETAIL
+			,	KSIC
+			,	NAME
+			,	ADDRESS
+			,	PHONE
+			,	HOME_PAGE
+			, 	STAFF_NUMBER
+			, 	MAIN_PRODUCT
+			, 	ASSOCIATED_JOB_1
+			, 	ASSOCIATED_JOB_2
+			, 	ASSOCIATED_JOB_3
+			,	UPLOAD_FILE_ID
+		FROM
+			COMPANY A
+		WHERE 
+			USE_YN = 'Y'		
+	</select>
+	
+	<select id="selectRegionCount" resultMap="company">
+		SELECT
+			COUNT(*) AS REGION_COUNT 
+			,	REGION
+			,	(SELECT ADDR FROM ADMINISTRATIVE_DISTRICT WHERE CODE = A.REGION) AS REGION_NAME
+		FROM
+			COMPANY A
+		WHERE
+			1 = 1
+			AND USE_YN = 'Y'
+			<if test='size != null and size != "" '>
+				AND SIZE = #{size}
+			</if>
+			<if test='region != null and region != "" '>
+				AND REGION = #{region}
+			</if>
+			<if test='region_detail != null and region_detail != "" '>
+				AND REGION_DETAIL = #{region_detail}
+			</if>
+			<if test='name != null and name != "" '>
+				AND NAME LIKE CONCAT('%',#{name},'%')
+			</if>
+			<if test='category_id != null and category_id != "" '>
+				AND 
+				   ( (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_1) = #{category_id}
+					 OR (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_2) = #{category_id}
+					 OR (SELECT CATEGORY_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_3) = #{category_id}
+					)
+			</if>
+			<if test='category_detail_id != null and category_detail_id != "" '>
+				AND 
+				   ( (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_1) = #{category_detail_id}
+					 OR (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_2) = #{category_detail_id}
+					 OR (SELECT CATEGORY_DETAIL_ID FROM job WHERE job_id = A.ASSOCIATED_JOB_3) = #{category_detail_id}
+					)
+			</if>
+		GROUP BY REGION		
+	</select>
+	
+</mapper>
