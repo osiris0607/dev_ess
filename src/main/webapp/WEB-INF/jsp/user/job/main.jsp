@@ -167,8 +167,7 @@
 				str += "<tbody>";
 			}
 
-			// Detail 생성
-			if (categoryDetailId != data.result[i].category_detail_id) {
+			if (categoryDetailId != data.result[i].category_detail_id) { // D000002 부터 데이터가 없을 때
 				categoryDetailId = data.result[i].category_detail_id;
 				if ( isDetailFirst == true ){
 					isDetailFirst = false;
@@ -195,28 +194,34 @@
 						}
 					}
 
+					// 대분류 row span 수정
 					if (data.result[i].category_id == "A") {
 						str += "	<th class='leftRadius material' rowspan='3'>" + unescapeHtml(categoryName) + "</th>";
 					}
 					if (data.result[i].category_id == "B") {
-						str += "	<th class='leftRadius production' rowspan='3'>" + unescapeHtml(categoryName) + "</th>";
+						str += "	<th class='leftRadius production' rowspan='2'>" + unescapeHtml(categoryName) + "</th>";
 					}
 					if (data.result[i].category_id == "C") {
 						str += "	<th class='leftRadius system' rowspan='3'>" + unescapeHtml(categoryName) + "</th>";
 					}
 					if (data.result[i].category_id == "D") {
-						str += "	<th class='leftRadius business' rowspan='4'>" + unescapeHtml(categoryName) + "</th>";
+						str += "	<th class='leftRadius business' rowspan='12'>" + unescapeHtml(categoryName) + "</th>";
 					}
 				}
 				else {
 					str += "<tr class='line_b'>";
 				}
 
-
+				// 중분류 row span 수정
+				// 카테고리명 개행을 위해 name1+name2로 출력
 				var imageTag = "";
 				if (data.result[i].category_detail_id == "A-1") {
 					imageTag = "<img src='/assets/img/job_silicon_icon.png' alt='실리콘 이미지' title='실리콘 이미지' />";
-					str += "<th class='tal material2'><span>" + imageTag + "</span>" + unescapeHtml(data.result[i].category_detail_name) + "</th>";
+					var categoryDetailName = data.result[i].category_detail_name;
+					var name1 = categoryDetailName.substr(0, 2);
+					var name2 = categoryDetailName.substr(2);
+					
+					str += "<th class='tal material2' rowspan='2'><span>" + imageTag + "</span>" + unescapeHtml(name1) + "<br>" + unescapeHtml(name2) + "</th>";
 				}
 				else if (data.result[i].category_detail_id == "A-2") {
 					imageTag = "<img src='/assets/img/job_notsilicon_icon.png' alt='비실리콘 이미지' title='비실리콘 이미지' />";
@@ -244,23 +249,33 @@
 				}
 				else if (data.result[i].category_detail_id == "C-2") {
 					imageTag = "<img src='/assets/img/job_facilities_icon.png' alt='발전설비 이미지' title='발전설비 이미지' />";
-					str += "<th class='tal system2'><span>" + imageTag + "</span>" + unescapeHtml(data.result[i].category_detail_name) + "</th>";
+					var categoryDetailName = data.result[i].category_detail_name;
+					var name1 = categoryDetailName.substr(0, 4);
+					var name2 = categoryDetailName.substr(4);
+					str += "<th class='tal system2'><span>" + imageTag + "</span>" + unescapeHtml(name1) + "<br>" + unescapeHtml(name2) + "</th>";
 				}
 				else if (data.result[i].category_detail_id == "C-3") {
 					imageTag = "<img src='/assets/img/job_recycling_icon.png' alt='리사이클링&middot;리파워링 이미지' title='리사이클링&middot;리파워링 이미지' />";
-					str += "<th class='tal system2'><span>" + imageTag + "</span>" + unescapeHtml(data.result[i].category_detail_name) + "</th>";
+					imageTag = "<img src='/assets/img/job_facilities_icon.png' alt='발전설비 이미지' title='발전설비 이미지' />";
+					var categoryDetailName = data.result[i].category_detail_name;
+					var name1 = categoryDetailName.substr(0, 7);
+					var name2 = categoryDetailName.substr(7);
+					str += "<th class='tal system2'><span>" + imageTag + "</span>" + unescapeHtml(name1) + "<br>" + unescapeHtml(name2) + "</th>";
 				}
 				else if (data.result[i].category_detail_id == "D-1") {
 					imageTag = "<img src='/assets/img/job_consulting_icon.png' alt='사업개발&middot;컨설팅 이미지' title='사업개발&middot;컨설팅 이미지' />";
-					str += "<th class='tal business2'><span>" + imageTag + "</span>" + unescapeHtml(data.result[i].category_detail_name) + "</th>";
+					str += "<th class='tal business2' rowspan='4'><span>" + imageTag + "</span>" + unescapeHtml(data.result[i].category_detail_name) + "</th>";
 				}
 				else if (data.result[i].category_detail_id == "D-2") {
 					imageTag = "<img src='/assets/img/job_consulting_icon.png' alt='설계&middot;시공 이미지' title='설계&middot;시공 이미지' />";
-					str += "<th class='tal business2'><span>" + imageTag + "</span>" + unescapeHtml(data.result[i].category_detail_name) + "</th>";
+					str += "<th class='tal business2' rowspan='2'><span>" + imageTag + "</span>" + unescapeHtml(data.result[i].category_detail_name) + "</th>";
 				}
 				else if (data.result[i].category_detail_id == "D-3") {
 					imageTag = "<img src='/assets/img/job_operation_icon.png' alt='운영&middot;유지관리 이미지' title='운영&middot;유지관리 이미지' />";
-					str += "<th class='tal business2'><span>" + imageTag + "</span>" + unescapeHtml(data.result[i].category_detail_name) + "</th>";
+					var categoryDetailName = data.result[i].category_detail_name;
+					var name1 = categoryDetailName.substr(0, 4);
+					var name2 = categoryDetailName.substr(4);
+					str += "<th class='tal business2' rowspan='2'><span>" + imageTag + "</span>" + unescapeHtml(name1) + "<br>" + unescapeHtml(name2) + "</th>";
 				}
 				else if (data.result[i].category_detail_id == "D-4") {
 					imageTag = "<img src='/assets/img/job_edu_icon.png' alt='교육 이미지' title='교육 이미지' />";
@@ -269,10 +284,10 @@
 
 				
 				// 직업
-				
 				str += "<td>";
+				
 				while (true) {
-
+						
 					// 맨 마지막 데이터는 없을 수 있다.
 					if ( i >= data.result.length){
 						break;
@@ -280,7 +295,8 @@
 					
 					// D000001, D000002, D000003, D000004 순서대로 데이터가 나와야 한다.
 					// 중간에 없으면 Blank로 나온다.
-					if ( categoryDetailId == data.result[i].category_detail_id && occurptionNextId == data.result[i].occupation ) {
+					if ( categoryDetailId == data.result[i].category_detail_id && occurptionNextId == data.result[i].occupation ) { // 한 row 데이터로 출력
+						
 						if ( occurptionNextId == "D000001") {
 							str += "	<a href='javascript:void(0)' originClass='research' id='job_"+ data.result[i].job_id +"' onMouseOut='mouseOut(this);' onMouseOver='mouseOver(this);' class='research' onclick='detailPopup(\"" + data.result[i].job_id + "\");'>" + unescapeHtml(data.result[i].name) + "</a>";
 						}
@@ -290,7 +306,7 @@
 						else if ( occurptionNextId == "D000003") {
 							str += "	<a href='javascript:void(0)' originClass='func' id='job_"+ data.result[i].job_id +"' onMouseOut='mouseOut(this);' onMouseOver='mouseOver(this);' class='func' onclick='detailPopup(\"" + data.result[i].job_id + "\");'>" + unescapeHtml(data.result[i].name) + "</a>";
 						}
-						else {
+						else { // D000004
 							str += "	<a href='javascript:void(0)' originClass='service' id='job_"+ data.result[i].job_id +"' onMouseOut='mouseOut(this);' onMouseOver='mouseOver(this);' class='service' onclick='detailPopup(\"" + data.result[i].job_id + "\");'>" + unescapeHtml(data.result[i].name) + "</a>";
 						}
 					}
@@ -327,7 +343,11 @@
 					// D000001, D000002, D000003, D000004 순서대로 데이터가 나와야 한다.
 					// 중간에 없으면 Blank로 나온다.
 					if ( categoryDetailId == data.result[i].category_detail_id && occurptionNextId == data.result[i].occupation ) {
+						
 						if ( occurptionNextId == "D000001") {
+							// 소분류 tr, td 추가
+							str += "<tr class='line_b'>";
+							str += "<td>";
 							str += "	<a href='javascript:void(0)' originClass='research' id='job_"+ data.result[i].job_id +"' onMouseOut='mouseOut(this);' onMouseOver='mouseOver(this);' class='research' onclick='detailPopup(\"" + data.result[i].job_id + "\");'>" + unescapeHtml(data.result[i].name) + "</a>";
 						}
 						else if ( occurptionNextId == "D000002") {
@@ -362,8 +382,9 @@
 				str += "</td>";
 			}
 		}
-
+		
 		str += "	</tr>";
+		
 		str += "</tbody>";
 
 		console.log(str);

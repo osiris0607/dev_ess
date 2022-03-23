@@ -67,18 +67,18 @@ spring:
   profiles:
     active: dev # 기본 환경 선택       
 
-#  datasource:
-#    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-#    jdbc-url: jdbc:log4jdbc:mysql://103.55.191.104:3306/youth?serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
-##    jdbc-url: jdbc:log4jdbc:mysql://localhost:3306/youth?serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
-#    username: anchor
-#    password: Anchoruser0914@
-#    hikari:
-#      max-lifetime: 1200000
-#      maximum-pool-size: 12
-#      minimum-idle: 5 
-#      idle-timeout: 30000  
-#      connection-test-query: SELECT 1  
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    jdbc-url: jdbc:log4jdbc:mysql://103.55.191.104:3306/ess_job_navigator?serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
+#    jdbc-url: jdbc:log4jdbc:mysql://localhost:3306/youth?serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
+    username: anchor
+    password: Anchoruser0914@
+    hikari:
+      max-lifetime: 1200000
+      maximum-pool-size: 12
+      minimum-idle: 5 
+      idle-timeout: 30000  
+      connection-test-query: SELECT 1  
 
   
   resources:
@@ -137,17 +137,17 @@ spring:
 spring:
   profiles: dev
   
-  datasource:
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    jdbc-url: jdbc:log4jdbc:mysql://103.55.191.104:3306/ess_job_navigator?serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
-    username: anchor
-    password: Anchoruser0914@
-    hikari:
-      max-lifetime: 1200000
-      maximum-pool-size: 12
-      minimum-idle: 5 
-      idle-timeout: 30000  
-      connection-test-query: SELECT 1  
+#  datasource:
+#    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#    jdbc-url: jdbc:log4jdbc:mysql://103.55.191.104:3306/ess_job_navigator?serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
+#    username: anchor
+#    password: Anchoruser0914@
+#    hikari:
+#      max-lifetime: 1200000
+#      maximum-pool-size: 12
+#      minimum-idle: 5 
+#      idle-timeout: 30000  
+#      connection-test-query: SELECT 1  
 server:
   port: 12011
 

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anchordata.webframework.license">
+
+	<resultMap id="license" type="LicenseVO">
+		<result property ="license_id"				column="LICENSE_ID"	/>
+		<result property ="field"					column="FIELD"	/>
+		<result property ="field_name"				column="FIELD_NAME"	/>
+		<result property ="kor_name"				column="KOR_NAME"	/>
+		<result property ="eng_name"				column="ENG_NAME"	/>
+		<result property ="ministry"				column="MINISTRY"	/>
+		<result property ="enforcement_agency"		column="ENFORCEMENT_AGENCY"	/>
+		<result property ="summary"					column="SUMMARY"	/>
+		<result property ="change_process"			column="CHANGE_PROCESS"	/>
+		<result property ="performance_job"			column="PERFORMANCE_JOB"	/>
+		<result property ="prospect"				column="PROSPECT"	/>
+		
+		<result property ="use_yn"					column="USE_YN"	/>
+		<result property ="reg_date"				column="REG_DATE"	/>
+		<result property ="total_count"				column="TOTAL_COUNT"	/>
+	</resultMap>
+	
+	
+	<!-- PJS 생성  -->
+	<!-- 2020-03-25 -->
+	<insert id="insertInfo" parameterType="LicenseVO">
+		INSERT INTO  LICENSE ( 
+			FIELD
+			,	KOR_NAME
+			,	ENG_NAME
+			,	MINISTRY
+			,	ENFORCEMENT_AGENCY
+			,	SUMMARY
+			,	CHANGE_PROCESS
+			,	PERFORMANCE_JOB
+			, 	PROSPECT
+		) 
+		VALUES (
+			#{field} 
+			,	#{kor_name}
+			,	#{eng_name}
+			,	#{ministry}
+			,	#{enforcement_agency}
+			,	#{summary}
+			,	#{change_process}
+			,	#{performance_job}
+			,	#{prospect}
+		);
+	</insert>
+	
+	
+	<select id="selectSearchList" parameterType="DataMap"  resultMap="license">
+		<include refid="common.pagingPre"/>
+		SELECT
+			LICENSE_ID
+			,	FIELD
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000007' AND DETAIL_ID = A.FIELD) AS FIELD_NAME
+			,	KOR_NAME
+			,	ENG_NAME
+			,	MINISTRY
+			,	ENFORCEMENT_AGENCY
+			,	SUMMARY
+			,	CHANGE_PROCESS
+			, 	PERFORMANCE_JOB
+			,	PROSPECT
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			LICENSE A
+		WHERE
+			1 = 1
+			AND USE_YN = 'Y'
+			<if test='field != null and field != "" '>
+				AND FIELD = #{field}
+			</if>
+			<if test='name != null and name != "" '>
+				AND ( KOR_NAME LIKE CONCAT('%',#{name},'%') OR ENG_NAME LIKE CONCAT('%',#{name},'%') )
+			</if>
+		<include refid="common.pagingPost"/>
+	</select>	
+	
+	
+	
+	<select id="selectSearchAllList" parameterType="DataMap"  resultMap="license">
+		SELECT
+			LICENSE_ID
+			,	FIELD
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000007' AND DETAIL_ID = A.FIELD) AS FIELD_NAME
+			,	KOR_NAME
+			,	ENG_NAME
+			,	MINISTRY
+			,	ENFORCEMENT_AGENCY
+			,	SUMMARY
+			,	CHANGE_PROCESS
+			, 	PERFORMANCE_JOB
+			,	PROSPECT
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			LICENSE A
+		WHERE
+			1 = 1
+			AND USE_YN = 'Y'
+			<if test='field != null and field != "" '>
+				AND FIELD = #{field}
+			</if>
+			<if test='name != null and name != "" '>
+				AND ( KOR_NAME LIKE CONCAT('%',#{name},'%') OR ENG_NAME LIKE CONCAT('%',#{name},'%') )
+			</if>
+	</select>	
+	
+	
+	
+	<select id="selectSearchListMain" parameterType="DataMap"  resultMap="license">
+		SELECT
+			LICENSE_ID
+			,	FIELD
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000007' AND DETAIL_ID = A.FIELD) AS FIELD_NAME
+			,	KOR_NAME
+			,	ENG_NAME
+			,	MINISTRY
+			,	ENFORCEMENT_AGENCY
+			,	SUMMARY
+			,	CHANGE_PROCESS
+			, 	PERFORMANCE_JOB
+			,	PROSPECT
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			LICENSE A
+		WHERE
+		
+			USE_YN ='Y' 
+			<if test='field != null and field != "" '>
+				AND FIELD = #{field}
+			</if>
+			<if test='name != null and name != "" '>
+				AND ( KOR_NAME LIKE CONCAT('%',#{name},'%') OR ENG_NAME LIKE CONCAT('%',#{name},'%') )
+			</if>
+		
+			AND FIELD IN(
+						SELECT * FROM 
+						(
+							SELECT 
+								FIELD 
+							FROM 
+								LICENSE 
+							WHERE 
+								USE_YN ='Y' 
+								<if test='field != null and field != "" '>
+									AND FIELD = #{field}
+								</if>
+								<if test='name != null and name != "" '>
+									AND ( KOR_NAME LIKE CONCAT('%',#{name},'%') OR ENG_NAME LIKE CONCAT('%',#{name},'%') )
+								</if>
+								
+								GROUP BY FIELD LIMIT #{start}, #{end}
+						) AS TMP 
+					 )
+	</select>
+	
+	
+	<select id="selectDetail" parameterType="LicenseVO"  resultMap="license">
+		SELECT
+			LICENSE_ID
+			,	FIELD
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000007' AND DETAIL_ID = A.FIELD) AS FIELD_NAME
+			,	KOR_NAME
+			,	ENG_NAME
+			,	MINISTRY
+			,	ENFORCEMENT_AGENCY
+			,	SUMMARY
+			,	CHANGE_PROCESS
+			, 	PERFORMANCE_JOB
+			,	PROSPECT
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			LICENSE A
+		WHERE
+			LICENSE_ID = #{license_id}
+	</select>
+	
+	
+	<update id="updateInfo" parameterType="LicenseVO">
+		UPDATE LICENSE SET   
+			FIELD = #{field}
+			,	KOR_NAME = #{kor_name}
+			,	ENG_NAME = #{eng_name}
+			,	MINISTRY = #{ministry}
+			,	ENFORCEMENT_AGENCY = #{enforcement_agency}
+			,	SUMMARY = #{summary}
+			,	CHANGE_PROCESS = #{change_process}
+			,	PERFORMANCE_JOB = #{performance_job}
+			,	PROSPECT = #{prospect}
+			,	REG_DATE = NOW()
+		WHERE 
+			LICENSE_ID = #{license_id}
+	</update>
+	
+	
+	<delete id="deleteInfo" parameterType="LicenseVO">
+		DELETE FROM LICENSE			
+		WHERE LICENSE_ID = #{license_id}
+	</delete>	
+	
+	
+	<select id="selectAllList" resultMap="license">
+		SELECT
+			LICENSE_ID
+			,	FIELD
+			,	(SELECT NAME FROM COMMON_CODE_DETAIL WHERE MASTER_ID = 'M000007' AND DETAIL_ID = A.FIELD) AS FIELD_NAME
+			,	KOR_NAME
+			,	ENG_NAME
+			,	MINISTRY
+			,	ENFORCEMENT_AGENCY
+			,	SUMMARY
+			,	CHANGE_PROCESS
+			, 	PERFORMANCE_JOB
+			,	PROSPECT
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			LICENSE A
+		WHERE 
+			USE_YN = 'Y'		
+	</select>
+	
+	
+	<select id="selectRelativeJobList" parameterType="LicenseSearchVO" resultMap="license">
+		SELECT 
+			LICENSE_ID
+			,	FIELD
+			,	KOR_NAME
+			,	ENG_NAME
+		FROM
+			LICENSE A
+		WHERE 
+			USE_YN = 'Y'		
+			AND LICENSE_ID IN (SELECT RELATIVE_DETAIL_ID FROM JOB_RELATIVE WHERE JOB_ID = #{job_id} )	
+	</select>
+	
+	
+	
+	
+	
+	<select id="selectCountByDataRow" parameterType="LicenseSearchVO" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM
+			LICENSE A
+		WHERE 
+			USE_YN ='Y' 
+			<if test='field != null and field != "" '>
+				AND FIELD = #{field}
+			</if>
+			<if test='name != null and name != "" '>
+				AND ( KOR_NAME LIKE CONCAT('%',#{name},'%') OR ENG_NAME LIKE CONCAT('%',#{name},'%') )
+			</if>	
+	</select>
+	
+	<select id="seclectCountBylicenseType" parameterType="LicenseSearchVO" resultType="int">
+		SELECT 
+			COUNT(DISTINCT FIELD)
+		FROM
+			LICENSE A
+		WHERE 
+			USE_YN ='Y' 
+			<if test='field != null and field != "" '>
+				AND FIELD = #{field}
+			</if>
+			<if test='name != null and name != "" '>
+				AND ( KOR_NAME LIKE CONCAT('%',#{name},'%') OR ENG_NAME LIKE CONCAT('%',#{name},'%') )
+			</if>
+	</select>
+	
+	
+</mapper>

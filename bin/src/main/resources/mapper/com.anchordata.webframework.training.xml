@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anchordata.webframework.training">
+
+	<resultMap id="training" type="TrainingVO">
+		<result property ="training_id"				column="TRAINING_ID"/>
+		<result property ="title"					column="TITLE"	/>
+		<result property ="enforcement_agency"		column="ENFORCEMENT_AGENCY"	/>
+		<result property ="address"					column="ADDRESS"	/>
+		<result property ="contact"					column="CONTACT"	/>
+		<result property ="home_page"				column="HOME_PAGE"	/>
+		<result property ="link"					column="LINK"	/>
+		<result property ="hits"					column="HITS"	/>
+		<result property ="upload_file_id"			column="UPLOAD_FILE_ID"	/>
+		<result property ="upload_file_name"		column="UPLOAD_FILE_NAME"	/>
+		<result property ="upload_file_image"		column="UPLOAD_FILE_IMAGE"	/>
+		<result property ="attach_file_description"	column="ATTACH_FILE_DESCRIPTION"	/>
+		
+		<result property ="use_yn"					column="USE_YN"	/>
+		<result property ="reg_date"				column="REG_DATE"	/>
+		<result property ="total_count"				column="TOTAL_COUNT"	/>
+	</resultMap>
+	
+	
+	<!-- PJS 생성  -->
+	<!-- 2020-03-25 -->
+	<insert id="insertInfo" parameterType="TrainingVO">
+		INSERT INTO TRAINING ( 
+			TITLE
+			,	ENFORCEMENT_AGENCY
+			,	ADDRESS
+			,	CONTACT
+			,	HOME_PAGE
+			,	UPLOAD_FILE_ID
+		) 
+		VALUES (
+			#{title} 
+			,	#{enforcement_agency}
+			,	#{address}
+			,	#{contact}
+			,	#{home_page}
+			,	#{upload_file_id}
+		);
+	</insert>
+	
+	
+	<select id="selectSearchList" parameterType="DataMap"  resultMap="training">
+		<include refid="common.pagingPre"/>
+		SELECT
+			TRAINING_ID
+			,	TITLE
+			,	ENFORCEMENT_AGENCY
+			,	ADDRESS
+			,	CONTACT
+			,	HOME_PAGE
+			,	LINK
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+			,	(SELECT BINARY_CONTENT from UPLOAD_FILE WHERE FIlE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_IMAGE
+			,	(SELECT DESCRIPTION FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS ATTACH_FILE_DESCRIPTION
+		FROM
+			TRAINING A
+		WHERE
+			USE_YN = 'Y'
+			<if test='title != null and title != "" '>
+				AND TITLE LIKE CONCAT('%',#{title},'%')
+			</if>
+			<if test='enforcement_agency != null and enforcement_agency != "" '>
+				AND ENFORCEMENT_AGENCY LIKE CONCAT('%',#{enforcement_agency},'%')
+			</if>
+			<if test='reg_date != null and reg_date != "" '>
+				AND DATE_FORMAT(REG_DATE,'%Y-%m-%d') = #{reg_date}
+			</if>
+			<if test='address != null and address != "" '>
+				AND ADDRESS LIKE CONCAT('%',#{address},'%')
+			</if>
+		<include refid="common.pagingPost"/>
+	</select>	
+	
+	
+	<select id="selectSearchAllList" parameterType="DataMap"  resultMap="training">
+		SELECT
+			TRAINING_ID
+			,	TITLE
+			,	ENFORCEMENT_AGENCY
+			,	ADDRESS
+			,	CONTACT
+			,	HOME_PAGE
+			,	LINK
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+			,	(SELECT BINARY_CONTENT from UPLOAD_FILE WHERE FIlE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_IMAGE
+			,	(SELECT DESCRIPTION FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS ATTACH_FILE_DESCRIPTION
+		FROM
+			TRAINING A
+		WHERE
+			USE_YN = 'Y'
+			<if test='title != null and title != "" '>
+				AND TITLE LIKE CONCAT('%',#{title},'%')
+			</if>
+			<if test='enforcement_agency != null and enforcement_agency != "" '>
+				AND ENFORCEMENT_AGENCY LIKE CONCAT('%',#{enforcement_agency},'%')
+			</if>
+			<if test='reg_date != null and reg_date != "" '>
+				AND DATE_FORMAT(REG_DATE,'%Y-%m-%d') = #{reg_date}
+			</if>
+			<if test='address != null and address != "" '>
+				AND ADDRESS LIKE CONCAT('%',#{address},'%')
+			</if>
+	</select>
+	
+	
+	<select id="selectDetail" parameterType="TrainingVO"  resultMap="training">
+		SELECT
+			TRAINING_ID
+			,	TITLE
+			,	ENFORCEMENT_AGENCY
+			,	ADDRESS
+			,	CONTACT
+			,	HOME_PAGE
+			,	LINK
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+			,	UPLOAD_FILE_ID
+			,	(SELECT NAME FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_NAME
+			,	(SELECT BINARY_CONTENT from UPLOAD_FILE WHERE FIlE_ID = A.UPLOAD_FILE_ID) AS UPLOAD_FILE_IMAGE
+			,	(SELECT DESCRIPTION FROM UPLOAD_FILE WHERE FILE_ID = A.UPLOAD_FILE_ID) AS ATTACH_FILE_DESCRIPTION
+		FROM
+			TRAINING A
+		WHERE
+			TRAINING_ID = #{training_id}
+	</select>
+	
+	<update id="updateInfo" parameterType="TrainingVO">
+		UPDATE TRAINING SET   
+			TITLE = #{title}
+			,	ENFORCEMENT_AGENCY = #{enforcement_agency}
+			,	ADDRESS = #{address}
+			,	CONTACT = #{contact}
+			,	HOME_PAGE = #{home_page}
+			,	LINK = #{link}
+			,	REG_DATE = NOW()
+			<if test="upload_file_id != null and upload_file_id != '' ">
+				,	UPLOAD_FILE_ID = #{upload_file_id}
+			</if>
+		WHERE 
+			TRAINING_ID = #{training_id}
+	</update>
+	
+	
+	<delete id="deleteInfo" parameterType="TrainingVO">
+		DELETE FROM TRAINING			
+		WHERE TRAINING_ID = #{training_id}
+	</delete>	
+	
+	
+	
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anchordata.webframework.suggest">
+
+	<resultMap id="suggest" type="SuggestVO">
+		<result property ="suggest_id"				column="SUGGEST_ID"	/>
+		<result property ="name"					column="NAME"	/>
+		<result property ="email"					column="EMAIL"	/>
+		
+		<result property ="use_yn"					column="USE_YN"	/>
+		<result property ="reg_date"				column="REG_DATE"	/>
+		<result property ="total_count"				column="TOTAL_COUNT"	/>
+	</resultMap>
+	
+	
+	<insert id="insertInfo" parameterType="SuggestVO">
+		INSERT INTO SUGGEST ( 
+			NAME
+			,	EMAIL
+		) 
+		VALUES (
+			#{name}
+			,	#{email}
+		);
+	</insert>
+	
+	
+	<update id="updateInfo" parameterType="SuggestVO">
+		UPDATE SUGGEST SET   
+			NAME = #{name}
+			,	EMAIL = #{email}
+			,	REG_DATE = NOW()
+		WHERE 
+			SUGGEST_ID = #{suggest_id}
+	</update>
+	
+	
+	<delete id="deleteInfo" parameterType="SuggestVO">
+		DELETE FROM SUGGEST			
+		WHERE SUGGEST_ID = #{suggest_id}
+	</delete>	
+	
+	<select id="selectAllList" resultMap="suggest">
+		SELECT
+			SUGGEST_ID
+			,	NAME
+			,	EMAIL
+			,	USE_YN
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE
+		FROM
+			SUGGEST A
+	</select>
+	
+	
+	<update id="updateUseYN" parameterType="SuggestVO">
+		UPDATE SUGGEST SET   
+			USE_YN = #{use_yn}
+		WHERE 
+			SUGGEST_ID = #{suggest_id}
+	</update>
+	
+	
+	
+</mapper>

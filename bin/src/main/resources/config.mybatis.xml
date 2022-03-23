@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings>
+		<setting name="cacheEnabled"              	value="ture"/>  
+        <setting name="lazyLoadingEnabled"        	value="false"/>  
+        <setting name="multipleResultSetsEnabled" 	value="true"/>  
+        <setting name="useColumnLabel"            	value="true"/>  
+        <setting name="useGeneratedKeys"          	value="false"/>  
+        <setting name="defaultExecutorType"       	value="REUSE"/>
+        <setting name="mapUnderscoreToCamelCase" 	value="true" />
+        <setting name="callSettersOnNulls" 			value="true"/>
+	</settings>
+    
+    <typeAliases>
+    	<typeAlias type="com.anchordata.webframework.base.util.DataMap" alias="DataMap" />
+    	
+    	<typeAlias type="com.anchordata.webframework.service.commonCode.CommonCodeVO" alias="CommonCodeVO" />
+    	<typeAlias type="com.anchordata.webframework.service.main.MainVO" alias="MainVO" />
+    	<typeAlias type="com.anchordata.webframework.service.member.MemberVO" alias="MemberVO" />
+    	<typeAlias type="com.anchordata.webframework.service.notice.NoticeVO" alias="NoticeVO" />
+    	<typeAlias type="com.anchordata.webframework.service.uploadFile.UploadFileVO" alias="UploadFileVO" />
+    	
+    	
+    	<typeAlias type="com.anchordata.webframework.service.solar.job.JobVO" alias="JobVO" />
+    	<typeAlias type="com.anchordata.webframework.service.solar.job.JobRelativeVO" alias="JobRelativeVO" />
+    	<typeAlias type="com.anchordata.webframework.service.solar.company.CompanyVO" alias="CompanyVO" />
+    	<typeAlias type="com.anchordata.webframework.service.solar.training.TrainingVO" alias="TrainingVO" />
+    	<typeAlias type="com.anchordata.webframework.service.solar.license.LicenseVO" alias="LicenseVO" />
+    	<typeAlias type="com.anchordata.webframework.service.solar.license.LicenseSearchVO" alias="LicenseSearchVO" />
+    	<typeAlias type="com.anchordata.webframework.service.solar.trend.TrendVO" alias="TrendVO" />
+    	<typeAlias type="com.anchordata.webframework.service.solar.faq.FAQVO" alias="FAQVO" />
+    	<typeAlias type="com.anchordata.webframework.service.solar.suggest.SuggestVO" alias="SuggestVO" />
+    	<typeAlias type="com.anchordata.webframework.service.util.UtilAdministrativeDistrictVO" alias="UtilAdministrativeDistrictVO" />
+    </typeAliases>
+	
+    <mappers>     	
+    	<mapper resource="mapper/com.anchordata.webframework.common.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.commonCode.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.main.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.member.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.notice.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.uploadFile.xml" />
+    	
+    	
+    	<mapper resource="mapper/com.anchordata.webframework.job.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.license.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.util.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.company.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.trend.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.training.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.faq.xml" />
+    	<mapper resource="mapper/com.anchordata.webframework.suggest.xml" />
+    	
+    	
+	</mappers>
+
+</configuration>

@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.anchordata.webframework.member">
+
+	
+	<resultMap id="member" type="MemberVO">
+		<result property ="member_seq"				column="MEMBER_SEQ"	/>
+		<result property ="member_id"				column="MEMBER_ID"	/>
+		<result property ="pwd"						column="PWD"	/>
+		<result property ="birth"					column="BIRTH"	/>
+		<result property ="gender"					column="GENDER"	/>
+		<result property ="name"					column="NAME"	/>
+		<result property ="email"					column="EMAIL"	/>
+		<result property ="phone"					column="PHONE"	/>
+		<result property ="point"				    column="POINT"	/>
+		<result property ="auth_level"				column="AUTH_LEVEL"	/>
+		<result property ="recv_mail_yn"			column="RECV_MAIL_YN"	/>
+		<result property ="recv_msg_yn"				column="RECV_MSG_YN"	/>
+		<result property ="reg_terms_yn"			column="REG_TERMS_YN"	/>
+		<result property ="private_info_yn"			column="PRIVATE_INFO_YN"	/>
+		<result property ="use_yn"			    	column="USE_YN"	/>
+		<result property ="admin_use_yn"			column="ADMIN_USE_YN"	/>
+		<result property ="payment_yn"				column="PAYMENT_YN"	/>
+		<result property ="login_date"				column="LOGIN_DATE"	/>
+		<result property ="reg_date"				column="REG_DATE"	/>
+		<result property ="start_lecture_count"		column="START_LECTURE_COUNT"	/>
+		<result property ="end_lecture_count"		column="END_LECTURE_COUNT"	/>
+		<result property ="total_count"				column="TOTAL_COUNT"	/>
+	</resultMap>
+	
+	
+	
+	
+	
+	<update id="updateAdminUseYN" parameterType="MemberVO">
+		UPDATE MEMBER SET   
+			ADMIN_USE_YN = #{admin_use_yn}
+		WHERE 
+			MEMBER_ID = #{member_id}
+	</update>
+	
+	
+	<select id="findLoginInfo" parameterType="String" resultMap="member">
+		SELECT
+			MEMBER_ID
+			,	PWD
+			,	AUTH_LEVEL
+			,	ADMIN_USE_YN
+		FROM
+			MEMBER
+		WHERE
+			MEMBER_ID = #{id}
+	</select>
+	
+	
+	<select id="findID" parameterType="MemberVO" resultMap="member">
+		SELECT
+			MEMBER_ID
+		FROM
+			MEMBER
+		WHERE
+			NAME = #{name}
+			AND EMAIL = #{email}
+	</select>
+	
+	
+	<insert id="insertMemberInfo" parameterType="MemberVO">
+		INSERT INTO MEMBER ( 
+			MEMBER_ID
+			,	PWD
+			,	NAME
+		) 
+		VALUES ( 
+			#{member_id}
+			,	#{pwd} 
+			,	#{name}
+		);
+	</insert>
+	
+	
+	<update id="updateMemberInfo" parameterType="MemberVO">
+		UPDATE MEMBER SET   
+			BIRTH = #{birth}
+			,	GENDER = #{gender}
+			,	NAME = #{name}
+			,	EMAIL = #{email}
+			,	PHONE = #{phone}
+			,	RECV_MAIL_YN = #{recv_mail_yn}
+			,	RECV_MSG_YN = #{recv_msg_yn}
+		 
+		WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	
+	<update id="deleteMemberInfo" parameterType="MemberVO">
+		UPDATE MEMBER SET   
+			ADMIN_USE_YN = 'N'
+		WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	
+	<update id="updateLoginTime" parameterType="String">
+		UPDATE MEMBER SET   
+			LOGIN_DATE = NOW()
+		WHERE 
+			MEMBER_ID = #{member}
+	</update>
+	
+	
+	<update id="updateMemberBlock" parameterType="String">
+		UPDATE MEMBER SET   
+			USE_YN = 
+				CASE 
+					WHEN (SELECT USE_YN FROM MEMBER WHERE MEMBER_ID = #{member}) = 'Y'
+					THEN 'N'
+					ELSE 'Y'
+				END	
+		WHERE 
+			MEMBER_ID = #{member}
+	</update>
+	
+	
+	<select id="selectMemberCount" resultType="java.util.HashMap">
+		SELECT
+			 COUNT(*) AS TOTAL_MEMBER,
+			 (SELECT COUNT(*) FROM MEMBER WHERE USE_YN = 'N') AS TOTAL_BLOCK_MEMBER,
+			 (SELECT COUNT(*) FROM MEMBER WHERE ADMIN_USE_YN = 'N') AS TOTAL_DELETE_MEMBER
+		FROM
+			MEMBER
+		WHERE 
+			AUTH_LEVEL != '99'
+			AND ADMIN_USE_YN	= 'Y'
+			AND USE_YN = 'Y'
+	</select>
+	
+	
+	<select id="selectSearchList" parameterType="MemberVO" resultMap="member">
+		SELECT 
+			MEMBER_ID
+			,	NAME
+			, 	DATE_FORMAT(BIRTH,'%Y-%m-%d') AS BIRTH
+		FROM
+			MEMBER
+		WHERE
+			1 = 1
+			AND AUTH_LEVEL != '99'
+			AND ADMIN_USE_YN	= 'Y'
+			AND USE_YN = 'Y'
+			<!--  content - 주요 역서에서 찾는다.  -->
+			<if test='name != null and name != "" '>
+				AND NAME LIKE CONCAT('%',#{name},'%')
+			</if>
+	</select>
+	
+	
+	<select id="selectAllList" resultMap="member">
+		SELECT 
+			MEMBER_ID
+			,	NAME
+			, 	DATE_FORMAT(BIRTH,'%Y-%m-%d') AS BIRTH
+			,	GENDER
+			,	EMAIL
+			,	PHONE
+			,	POINT
+			,	DATE_FORMAT(REG_DATE,'%Y-%m-%d') AS REG_DATE 
+		FROM
+			MEMBER		
+	</select>
+	
+	
+	<!-- PJS 생성  -->
+	<!-- 2020-03-21 -->
+	<select id="selectPagingList" parameterType="HashMap"  resultMap="member">
+		<include refid="common.pagingPre"/>
+		SELECT
+			MEMBER_SEQ
+			, MEMBER_ID
+			, DATE_FORMAT(STR_TO_DATE(BIRTH,'%Y%m%d'),'%Y-%m-%d') AS BIRTH
+			, GENDER
+			, NAME
+			, EMAIL
+			, PHONE
+			, POINT
+			, AUTH_LEVEL
+			, RECV_MAIL_YN
+			, RECV_MSG_YN
+			, REG_TERMS_YN
+			, PRIVATE_INFO_YN
+			, PAYMENT_YN
+			, LOGIN_DATE
+			, DATE_FORMAT(reg_date, '%Y-%m-%d') AS REG_DATE
+			, USE_YN
+		FROM
+			MEMBER A
+		WHERE
+			1 = 1
+			AND AUTH_LEVEL != '99'
+			AND A.ADMIN_USE_YN	= 'Y'
+			AND A.USE_YN = 'Y'
+		ORDER BY 
+			MEMBER_ID DESC
+		<include refid="common.pagingPost"/>
+	</select>
+	
+	
+		<!-- PJS 생성  -->
+	<!-- 2020-03-21 -->
+	<select id="selectDetailView" parameterType="DataMap"  resultMap="member">
+		SELECT
+			MEMBER_SEQ
+			, MEMBER_ID
+			, DATE_FORMAT(STR_TO_DATE(BIRTH,'%Y%m%d'),'%Y-%m-%d') AS BIRTH
+			, GENDER
+			, NAME
+			, EMAIL
+			, PHONE
+			, POINT
+			, AUTH_LEVEL
+			, RECV_MAIL_YN
+			, RECV_MSG_YN
+			, REG_TERMS_YN
+			, PRIVATE_INFO_YN
+			, PAYMENT_YN
+		FROM
+			MEMBER A
+		WHERE MEMBER_ID = #{member_id}
+	</select>
+	
+	
+	<select id="selectAdminSearchPagingList" parameterType="HashMap"  resultMap="member">
+		<include refid="common.pagingPre"/>
+		SELECT
+			MEMBER_SEQ
+			, MEMBER_ID
+			, NAME
+			, USE_YN
+			, ADMIN_USE_YN
+			, REG_DATE
+		FROM
+			MEMBER A
+		WHERE
+			AUTH_LEVEL != 'D000001'
+		<include refid="common.pagingPost"/>
+	</select>
+	
+	
+	<select id="selectSearchPagingList" parameterType="HashMap"  resultMap="member">
+		<include refid="common.pagingPre"/>
+		SELECT
+			MEMBER_SEQ
+			, MEMBER_ID
+			, DATE_FORMAT(STR_TO_DATE(BIRTH,'%Y%m%d'),'%Y-%m-%d') AS BIRTH
+			, GENDER
+			, NAME
+			, EMAIL
+			, PHONE
+			, POINT
+			, AUTH_LEVEL
+			, RECV_MAIL_YN
+			, RECV_MSG_YN
+			, REG_TERMS_YN
+			, PRIVATE_INFO_YN
+			, PAYMENT_YN
+			, LOGIN_DATE
+			, DATE_FORMAT(reg_date, '%Y-%m-%d') AS REG_DATE
+			, USE_YN
+		FROM
+			MEMBER A
+		WHERE
+			1 = 1
+			AND AUTH_LEVEL != '99'
+			AND A.ADMIN_USE_YN	= 'Y'
+			AND A.USE_YN = 'Y'
+			<!--  Member Type - 'P'이면 Admin  -->
+<!-- 			<if test='member_type != null and member_type != "P" '>
+				AND A.ADMIN_USE_YN	= 'Y'
+			</if> -->
+			
+			<!--  NAME  -->
+			<if test='name != null and name != "" '>
+				AND NAME LIKE CONCAT('%',#{name},'%')
+			</if>
+			
+			<!--  member_id  -->
+			<if test='member_id != null and member_id != "" '>
+				AND MEMBER_ID LIKE CONCAT('%',#{member_id},'%')
+			</if>
+			
+			<!--  content - 주요 역서에서 찾는다.  -->
+			<if test='content != null and content != "" '>
+				AND MAJOR_TRANSLATION LIKE CONCAT('%',#{content},'%')
+			</if>
+		ORDER BY 
+			MEMBER_SEQ DESC
+
+		<include refid="common.pagingPost"/>
+	</select>
+	
+	
+	<select id="selectMemeberExist" parameterType="MemberVO" resultMap="member">
+		SELECT
+			MEMBER_ID
+		FROM
+			MEMBER
+		WHERE
+			MEMBER_ID = #{member_id}
+			AND NAME = #{name}
+			AND EMAIL = #{email}
+	</select>
+	
+	
+	<select id="selectMemeberPwd" parameterType="MemberVO" resultMap="member">
+		SELECT
+			PWD
+		FROM
+			MEMBER
+		WHERE
+			MEMBER_ID = #{member_id}
+	</select>
+	
+	
+	
+	<update id="updateNewPwd" parameterType="MemberVO">
+		UPDATE MEMBER SET   
+			PWD = #{pwd}
+		WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	
+	<update id="updatePayment" parameterType="MemberVO">
+		UPDATE  MEMBER SET   
+			PAYMENT_YN = #{payment_yn}
+		WHERE MEMBER_ID = #{member_id}
+	</update>
+	
+	
+	<select id="selectStatLecture" parameterType="MemberVO" resultMap="member">
+		SELECT 
+			( SELECT COUNT(*)  FROM open_lecture 
+			  WHERE OPEN_LECTURE_ID IN (SELECT OPEN_LECTURE_ID FROM payment WHERE member_id=#{member_id}) AND USE_YN = 'Y') 
+			 AS START_LECTURE_COUNT,
+			( SELECT COUNT(*)  FROM open_lecture 
+			  WHERE OPEN_LECTURE_ID IN (SELECT OPEN_LECTURE_ID FROM payment WHERE member_id=#{member_id}) AND USE_YN = 'N') 
+		    AS END_LECTURE_COUNT
+	</select>
+	
+	
+	
+	
+	
+</mapper>

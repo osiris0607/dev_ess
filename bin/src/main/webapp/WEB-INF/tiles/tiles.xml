@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC  "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"  "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+	
+	<definition name="user" template="/WEB-INF/layout/user/template.jsp">
+		<put-attribute name="header"		value="/WEB-INF/layout/user/header.jsp" />
+		<put-attribute name="headerSide"	value="/WEB-INF/layout/user/headerSide.jsp" />
+		<put-attribute name="body" 			value="" />
+		<put-attribute name="footer"		value="/WEB-INF/layout/user/footer.jsp" />
+	</definition>
+	
+	<definition name="admin" template="/WEB-INF/layout/admin/template.jsp">
+		<put-attribute name="header"		value="/WEB-INF/layout/admin/header.jsp" />
+		<put-attribute name="headerSide"	value="/WEB-INF/layout/admin/headerSide.jsp" />
+		<put-attribute name="body" 			value="" />
+		<put-attribute name="footer"		value="/WEB-INF/layout/admin/footer.jsp" />
+	</definition>
+	
+	<definition name="member" template="/WEB-INF/layout/member/template.jsp">
+		<put-attribute name="header"		value="/WEB-INF/layout/member/header.jsp" />
+		<put-attribute name="headerSide"	value="/WEB-INF/layout/member/headerSide.jsp" />
+		<put-attribute name="body" 			value="" />
+		<put-attribute name="footer"		value="/WEB-INF/layout/member/footer.jsp" />
+	</definition>
+	
+	<definition name="*/*.user" extends="user">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/user/{1}/{2}.jsp"/>
+    </definition>
+    
+   	<definition name="*/*/*.user" extends="user">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/user/{1}/{2}/{3}.jsp"/>
+    </definition>
+    
+   	<definition name="*/*.member" extends="member">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/member/{1}/{2}.jsp"/>
+    </definition>
+    
+   	<definition name="*/*/*.member" extends="member">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/member/{1}/{2}/{3}.jsp"/>
+    </definition>
+    
+	<definition name="*/*.admin" extends="admin">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/admin/{1}/{2}.jsp"/>
+    </definition>
+    
+   	<definition name="*/*/*.admin" extends="admin">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/admin/{1}/{2}/{3}.jsp"/>
+    </definition>
+    
+    
+	<definition name="userSolarMobile" template="/WEB-INF/layout/user/templateMobile.jsp">
+		<put-attribute name="header"		value="/WEB-INF/layout/user/headerMobile.jsp" />
+		<put-attribute name="headerSide"	value="/WEB-INF/layout/user/headerSideMobile.jsp" />
+		<put-attribute name="body" 			value="" />
+		<put-attribute name="footer"		value="/WEB-INF/layout/user/footerMobile.jsp" />
+	</definition>
+	
+	<definition name="adminSolarMobile" template="/WEB-INF/layout/admin/templateMobile.jsp">
+		<put-attribute name="header"		value="/WEB-INF/layout/admin/headerMobile.jsp" />
+		<put-attribute name="headerSide"	value="/WEB-INF/layout/admin/headerSideMobile.jsp" />
+		<put-attribute name="body" 			value="" />
+		<put-attribute name="footer"		value="/WEB-INF/layout/admin/footerMobile.jsp" />
+	</definition>
+	
+	<definition name="memberSolarMobile" template="/WEB-INF/layout/member/templateMobile.jsp">
+		<put-attribute name="header"		value="/WEB-INF/layout/member/headerMobile.jsp" />
+		<put-attribute name="headerSide"	value="/WEB-INF/layout/member/headerSideMobile.jsp" />
+		<put-attribute name="body" 			value="" />
+		<put-attribute name="footer"		value="/WEB-INF/layout/member/footerMobile.jsp" />
+	</definition>
+	
+	<definition name="*/*.userSolarMobile" extends="userSolarMobile">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/user/{1}/{2}.jsp"/>
+    </definition>
+    
+   	<definition name="*/*/*.userSolarMobile" extends="userSolarMobile">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/user/{1}/{2}/{3}.jsp"/>
+    </definition>
+    
+   	<definition name="*/*.memberSolarMobile" extends="memberSolarMobile">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/member/{1}/{2}.jsp"/>
+    </definition>
+    
+   	<definition name="*/*/*.memberSolarMobile" extends="memberSolarMobile">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/member/{1}/{2}/{3}.jsp"/>
+    </definition>
+    
+	<definition name="*/*.adminSolarMobile" extends="adminSolarMobile">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/admin/{1}/{2}.jsp"/>
+    </definition>
+    
+   	<definition name="*/*/*.adminSolarMobile" extends="adminSolarMobile">
+        <put-attribute name="body" 			value="/WEB-INF/jsp/admin/{1}/{2}/{3}.jsp"/>
+    </definition>    
+    
+    
+    
+	<definition name="error/error" template="/WEB-INF/jsp/error/error.jsp"></definition>	
+	<definition name="login/adminLogin" template="/WEB-INF/jsp/user/login/adminLogin.jsp"></definition>
+	<definition name="user/main" template="/WEB-INF/jsp/user/main/main.jsp"></definition>	
+	<definition name="user/gate" template="/WEB-INF/jsp/user/gate/gate.jsp"></definition>
+	<definition name="user/gateMobile" template="/WEB-INF/jsp/user/gate/gateMobile.jsp"></definition>	
+	
+</tiles-definitions>
